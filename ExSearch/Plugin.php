@@ -272,7 +272,8 @@ class ExSearch_Plugin implements Typecho_Plugin_Interface
         $className = "Widget_Abstract_{$table}";
         $key = $keys[$table];
         $db = Typecho_Db::get();
-        $widget = new $className(Typecho_Request::getInstance(), Typecho_Widget_Helper_Empty::getInstance());
+        // $widget = new $className(Typecho_Request::getInstance(), Typecho_Widget_Helper_Empty::getInstance());
+        $widget = new $className(new \Typecho\Widget\Request(\Typecho\Request::getInstance()), new \Typecho\Widget\Response(\Typecho\Request::getInstance(), \Typecho\Response::getInstance()));
         
         $db->fetchRow(
             $widget->select()->where("{$key} = ?", $pkId)->limit(1),
