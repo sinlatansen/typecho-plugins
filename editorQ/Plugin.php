@@ -34,7 +34,7 @@ public static function button(){
 }</style>
 		<script> 
           $(document).ready(function(){
-          	$('#wmd-button-row').append('<li class="wmd-button" id="wmd-jrotty-button" title="代码 - ALT+C"><span style="background: none;font-size: large;text-align: center;color: #999999;font-family: serif;">C</span></li>');
+          	$('#wmd-button-row').append('<li class="wmd-button" id="wmd-jrotty-button" title="代码 - ALT+C"><span style="background: none;font-size: small;text-align: center;color: #999999;font-family: serif;">C</span></li>');
 				if($('#wmd-button-row').length !== 0){
 					$('#wmd-jrotty-button').click(function(){
 						var rs = "```\nyour code\n```\n";
@@ -79,7 +79,7 @@ public static function button(){
 					}
 				});
 
-            $('#wmd-button-row').append('<li class="wmd-button" id="wmd-indent-button" title="缩进 - ALT+Q"><span style="background: none;font-size: large;text-align: center;color: #999999;font-family: serif;">缩</span></li>');
+            $('#wmd-button-row').append('<li class="wmd-button" id="wmd-indent-button" title="缩进 - ALT+Q"><span style="background: none;font-size: small;text-align: center;color: #999999;font-family: serif;">缩</span></li>');
                 if($('#wmd-button-row').length !== 0){
                     $('#wmd-indent-button').click(function(){
                         var rs = "　　";
@@ -89,6 +89,19 @@ public static function button(){
                 $('body').on('keydown',function(a){
                     if( a.altKey && a.keyCode == "81"){
                         $('#wmd-indent-button').click();
+                    }
+                });
+            
+             $('#wmd-button-row').append('<li class="wmd-button" id="wmd-block-button" title="加密 - ALT+M"><span style="background: none;font-size: small;text-align: center;color: #999999;font-family: serif;">密</span></li>');
+                if($('#wmd-button-row').length !== 0){
+                    $('#wmd-block-button').click(function(){
+                        var rs = '[ppblock ex="请输入密码"]\n输入密码可见的内容\n[/ppblock]\n';
+                        zeze(rs);
+                    })
+                }
+                $('body').on('keydown',function(a){
+                    if( a.altKey && a.keyCode == "77"){
+                        $('#wmd-block-button').click();
                     }
                 });
 			});
