@@ -146,6 +146,7 @@ class SakanaTypecho_Plugin implements Typecho_Plugin_Interface
 ?>
         <style>
             #sakana-widget {
+                display: none;
                 position: fixed;
                 <?= $config->widget_pos ?>: <?= $config->side_distance ?>px;
                 bottom: <?= $config->bottom_distance ?>px;
@@ -154,6 +155,7 @@ class SakanaTypecho_Plugin implements Typecho_Plugin_Interface
             }
 
             #sakana-bubble {
+                display: none;
                 position: fixed;
                 bottom: <?= $config->bottom_distance + 215 ?>px;
                 padding: 10px;
@@ -197,6 +199,7 @@ class SakanaTypecho_Plugin implements Typecho_Plugin_Interface
                 // 手机端的分类讨论处理
             ?>@media(max-width: 1024px) {
                 #sakana-widget {
+                    display: none; /* 初始状态不显示 */
                     bottom: 10px;
                     <?= $config->widget_pos ?>: 0px;
                     height: 120px;
@@ -204,6 +207,7 @@ class SakanaTypecho_Plugin implements Typecho_Plugin_Interface
                 }
 
                 #sakana-bubble {
+                    display: none; /* 初始状态不显示 */
                     position: fixed;
                     bottom: 150px;
                     padding: 8px;
@@ -299,22 +303,38 @@ class SakanaTypecho_Plugin implements Typecho_Plugin_Interface
 
                 function showDialogue() {
                     /* 随机 */
-                    /* const randomIndex = Math.floor(Math.random() * dialogues.length);
-                    bubble.textContent = dialogues[randomIndex]; */
-                    bubble.textContent = '🐟 ' + dialogues[i % dialogues.length];
-                    i = i + 1;
+                    const randomIndex = Math.floor(Math.random() * dialogues.length);
+                    bubble.textContent = dialogues[randomIndex];
+                    /* bubble.textContent = '🐟 ' + dialogues[i % dialogues.length];
+                    i = i + 1; */
                     bubble.classList.add('show');
 
                     /* 一段时间后隐藏气泡，可根据需要调整时间 */
                     setTimeout(() => {
                         bubble.classList.remove('show');
-                    }, 5000);
+                    }, 3000);
                 }
 
                 showDialogue();
                 /* debugger; */
                 setInterval(showDialogue, 6000);
+                // 检测页面滚动，根据滚动距离显示或隐藏组件
+                window.addEventListener('scroll', () => {
+                    const scrollDistance = window.scrollY;
+                    const sakanaWidget = document.getElementById('sakana-widget');
+                    const sakanaBubble = document.getElementById('sakana-bubble');
+                    
+                    if (scrollDistance > 300) {
+                        sakanaWidget.style.display = 'block';
+                        sakanaBubble.style.display = 'block';
+                    } else {
+                        sakanaWidget.style.display = 'none';
+                        sakanaBubble.style.display = 'none';
+                    }
+                });
             });
+            /* 初步能实现隐藏。
+            bug：首屏一开始还是会出现，后来才能隐藏。没有动画有些生硬。 */
         </script>
 <?php
     }
