@@ -130,6 +130,34 @@ class ExSearch_Plugin implements Typecho_Plugin_Interface
     public static function save()
     {
         $db = Typecho_Db::get();
+        // try {
+        //     // 获取文章
+        //     $posts = self::build('post');
+        //     if (empty($posts)) {
+        //         echo "没有找到文章";
+        //     } else {
+        //         $cache['posts'] = $posts;
+        //         echo "找到文章";
+        //         // 其他代码...
+        //     }
+        // } catch (Exception $e) {
+        //     echo "获取文章时出错: " . $e->getMessage();
+        // }
+        // try {
+        //     // 直接执行SQL查询
+        //     $posts = $db->fetchAll($db->select()->from('typecho_contents')->where('type = ?', 'post'));
+            
+        //     if (empty($posts)) {
+        //         echo "没有找到文章";
+        //     } else {
+        //         echo "直接查询找到文章";
+        //         // 此处可以输出一些文章信息以进行调试
+        //         print_r($posts);
+        //     }
+        // } catch (Typecho_Db_Exception $e) {
+        //     echo "直接查询文章时出错: " . $e->getMessage();
+        // }
+
 
         // 防止过大的内容导致 MySQL 报错，需要高级权限
         // $sql = 'SET GLOBAL max_allowed_packet=4294967295;';
@@ -146,6 +174,7 @@ class ExSearch_Plugin implements Typecho_Plugin_Interface
         $cache = json_encode($cache);
         $md5 = md5($cache);
 
+        // echo $cache;
         if(Helper::options()->plugin('ExSearch')->static == 'true')
         {
             $code = file_put_contents(__DIR__.'/cache/cache-'.$md5.'.json', $cache);
@@ -197,12 +226,24 @@ class ExSearch_Plugin implements Typecho_Plugin_Interface
      */
     private static function build($type)
     {
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+
         $db = Typecho_Db::get();
         $rows = $db->fetchAll($db->select()->from('table.contents')
                 ->where('table.contents.type = ?', $type)
                 ->where('table.contents.status = ?', 'publish')
-                ->where('table.contents.password IS NULL')
+                ->where('table.contents.password IS NULL OR table.contents.password = ?', '')
                 ->order('table.contents.created', Typecho_Db::SORT_DESC));
+        // $rows = $db->fetchAll($db->select()->from('typecho_contents') // 注意这里添加了前缀
+        // ->where('type = ?', $type)
+        // ->where('status = ?', 'publish')
+        // ->where('password IS NULL')
+        // ->order('created', Typecho_Db::SORT_DESC));
+
+        echo '<pre>';
+        print_r($rows);
+        echo '</pre>';
         $cache = array();
         foreach ($rows as $row) {
             $widget = self::widget('Contents', $row['cid']);
