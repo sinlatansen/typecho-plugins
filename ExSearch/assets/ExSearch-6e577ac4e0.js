@@ -4,7 +4,7 @@ console.log(
     "background: #1c2b36; padding:5px;"
 ),
     $("body").append(
-        '<div class="ins-search"><div class="ins-search-overlay"></div><div class="ins-search-container"><div class="ins-input-wrapper"><input type="text" class="ins-search-input" placeholder="搜索点什么吧..." /><span class="ins-close ins-selectable"><i class="iconfont icon-close"></span></div><div class="ins-section-wrapper"><div class="ins-section-container"></div></div></div></div>'
+        '<div class="ins-search"><div class="ins-search-overlay"></div><div class="ins-search-container"><div class="ins-input-wrapper"><input type="text" class="ins-search-input" placeholder="" /><span class="ins-close ins-selectable"><i class="iconfont icon-close"></span></div><div class="ins-section-wrapper"><div class="ins-section-container"></div></div></div></div>'
     ),
     (function (n) {
         var e = {
